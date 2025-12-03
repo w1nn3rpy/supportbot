@@ -17,23 +17,42 @@ dp = Dispatcher()
 async def user_message(message: Message):
     username = f"@{message.from_user.username}" if message.from_user.username else "—"
 
-    text = (
+    header = (
         f"Новое сообщение от пользователя:\n\n"
         f"👤 ID: {message.from_user.id}\n"
-        f"🟦 Username: {username}\n"
-        f"💬 Текст: {message.text}"
+        f"🟦 Username: {username}\n\n"
     )
 
-    # Кнопка для ответа
-    kb = InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(
-            text="Ответить",
-            callback_data=f"reply_{message.from_user.id}"
-        )
-    ]])
-
+    # Отправка текста + медиа в поддержку
     for admin_id in ADMINS:
-        await bot.send_message(admin_id, text, reply_markup=kb)
+
+        # 1. Фото
+        if message.photo:
+            await bot.send_message(admin_id, header)
+            await bot.send_photo(admin_id, message.photo[-1].file_id, caption=message.caption or "")
+            continue
+
+        # 2. Документы
+        if message.document:
+            await bot.send_message(admin_id, header)
+            await bot.send_document(admin_id, message.document.file_id, caption=message.caption or "")
+            continue
+
+        # 3. Видео
+        if message.video:
+            await bot.send_message(admin_id, header)
+            await bot.send_video(admin_id, message.video.file_id, caption=message.caption or "")
+            continue
+
+        # 4. Голосовые сообщения
+        if message.voice:
+            await bot.send_message(admin_id, header)
+            await bot.send_voice(admin_id, message.voice.file_id, caption=message.caption or "")
+            continue
+
+        # 5. Просто текст
+        if message.text:
+            await bot.send_message(admin_id, header + f"💬 Сообщение:\n{message.text}")
 
     await message.answer("Ваше сообщение отправлено в поддержку.")
 
