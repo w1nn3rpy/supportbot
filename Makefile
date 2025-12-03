@@ -7,7 +7,7 @@ stop:
 attach:
 	docker attach dudevpn_supportbot
 dell:
-	docker rm dudevpnsupport_bot
+	docker rm dudevpn_supportbot
 	docker image remove dudevpn_supportbot_image
 update:
 	make stop
