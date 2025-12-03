@@ -1,7 +1,7 @@
 build:
 	docker build -t dudevpn_supportbot_image .
 run:
-	docker run -it -d --env-file .env --restart=unless-stopped --name dudevpn_supportbot dudevpn_supportbot_image
+	docker run -d --env-file .env --restart=unless-stopped --name dudevpn_supportbot dudevpn_supportbot_image
 stop:
 	docker stop dudevpn_supportbot
 attach:
