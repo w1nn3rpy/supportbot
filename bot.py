@@ -18,7 +18,7 @@ async def user_message(message: Message):
     text = (
         f"Новое сообщение от пользователя:\n\n"
         f"👤 ID: {message.from_user.id}\n"
-        f'@{message.from_user.username}\n' if message.from_user.username else 'None'
+        f"{"@" + message.from_user.username + "\n" if message.from_user.username else "\n"}"
         f"💬 Текст: {message.text}"
     )
 
