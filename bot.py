@@ -11,6 +11,10 @@ ADMINS = [5983514379]
 bot = Bot(TOKEN)
 dp = Dispatcher()
 
+@dp.message(Command("start"))
+async def ignore_start(message: Message):
+    await message.answer('Опишите, с какой проблемой вы столкнулись — мы обязательно вам поможем!')
+
 
 # -------- Пользователь пишет в поддержку --------
 @dp.message(~F.from_user.id.in_(ADMINS))
