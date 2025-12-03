@@ -15,9 +15,12 @@ dp = Dispatcher()
 # -------- Пользователь пишет в поддержку --------
 @dp.message(~F.from_user.id.in_(ADMINS))
 async def user_message(message: Message):
-    text = (f"Новое сообщение от пользователя:\n\n"
+    username = f"@{message.from_user.username}" if message.from_user.username else "—"
+
+    text = (
+        f"Новое сообщение от пользователя:\n\n"
         f"👤 ID: {message.from_user.id}\n"
-        f"{"@" + message.from_user.username + "\n" if message.from_user.username else "\n"}"
+        f"🟦 Username: {username}\n"
         f"💬 Текст: {message.text}"
     )
 
